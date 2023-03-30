@@ -108,7 +108,7 @@ client.on("messageCreate", (message) => {
 
 	let task = cronJob.schedule('* 30 7 * * *', () => {
 		let message = client.channels.cache.get(channelId);
-		message.send('pagi');
+		message.send("https://media.discordapp.net/attachments/897136153495478272/1087294657853145118/Capture.png");
 	});
 
 	task.start();
