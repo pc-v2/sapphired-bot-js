@@ -10,7 +10,7 @@ module.exports = {
         .addChannelTypes(ChannelType.GuildText)
         .setRequired(true)),
         async execute (interaction) {
-            if (interaction.member.roles.cache.has('admin')) return await interaction.reply({
+            if (!interaction.member.roles.cache.has('1089560155215106068')) return await interaction.reply({
                 content: "You dont have permission to execute this command", ephemeral: true })
 
                 let channel = interaction.options.getChannel('channel');
