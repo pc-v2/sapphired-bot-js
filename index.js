@@ -49,22 +49,22 @@ for (const folder of commandFolders) {
 client.on(Events.ClientReady, (c) => {
   console.log(`${c.user.tag} is ready 👌`);
 
-  let activityTask = cronJob.schedule('* * 4 * * *',() =>
+  let sahurStatusTask = cronJob.schedule('* * 4 * * *',() =>
   {
     client.user.setActivity({
       name: 'sahur',
       type: ActivityType.Watching
     })
   })
-  let activityTask2 = cronJob.schedule('0 15 18 * * *',() =>
+  let berbukaStatusTask = cronJob.schedule('* 15 18 * * *',() =>
   {
     client.user.setActivity({
       name: 'berbuka',
       type: ActivityType.Watching
     })
   })
-  activityTask.start();
-  activityTask2.start()
+  sahurStatusTask.start();
+  berbukaStatusTask.start()
 });
 
 
