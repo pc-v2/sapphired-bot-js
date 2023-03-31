@@ -7,10 +7,13 @@ const {
   GatewayIntentBits,
   IntentsBitField,
   ActivityType,
-  PermissionsBitField
+  PermissionsBitField,
+  RoleManager,
+  PermissionOverwrites
 } = require("discord.js");
 const { token, channelId} = require("./config.json");
 const cronJob = require("node-cron");
+const testChannelId = '1088451892704718881';
 
 
 const client = new Client({
@@ -147,9 +150,20 @@ client.on("messageCreate", (message) => {
     console.log("berbuka cok");
 	});
 
+  // let lockChannel = cronJob.schedule('0 59 20 * * *', () =>{
+  //   let channel = client.channels.fetch(testChannelId)
+  //   .then(channel.permissionOverwrites.create(interaction.member.roles.cache.has('1090877110710718576'),{ViewChannel: false} ))
+  //   .catch(console.error);
+  // });
+  // let unlockChannel = cronJob.schedule('0 0 18 * * *', () =>{
+  //   let channel = client.channels.fetch(testChannelId)
+  //   .then((channel.permissionOverwrites.create(interaction.member.roles.cache.has('1090877110710718576'), {ViewChannel: true} )))
+  //   .catch(console.error);
+  // });
 
 	task.start();
 	sahurTask.start();
 	berbukaTask.start();
-
+  // lockChannel.start();
+  // unlockChannel.start();
 client.login(token);
