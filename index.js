@@ -6,6 +6,7 @@ const {
   Events,
   GatewayIntentBits,
   IntentsBitField,
+  ActivityType
 } = require("discord.js");
 const { token, channelId} = require("./config.json");
 const cronJob = require("node-cron");
@@ -44,8 +45,27 @@ for (const folder of commandFolders) {
   }
 }
 
-client.once(Events.ClientReady, (c) => {
+
+client.on(Events.ClientReady, (c) => {
   console.log(`${c.user.tag} is ready 👌`);
+
+  let activityTask = cronJob.schedule('* * 4 * * *',() =>
+  {
+    client.user.setActivity({
+      name: 'sahur',
+      type: ActivityType.Watching
+    })
+  })
+  let activityTask2 = cronJob.schedule('0 15 18 * * *',() =>
+  {
+    client.user.setActivity({
+      name: 'berbuka',
+      type: ActivityType.Watching
+    })
+  })
+  activityTask.start();
+  activityTask2.start()
+});
 
 
 
@@ -93,6 +113,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
   }
 });
 
+
 client.on("messageCreate", (message) => {
   if (message.content === "pagi") {
     message.reply(
@@ -106,12 +127,13 @@ client.on("messageCreate", (message) => {
   }
 });
 
-	let task = cronJob.schedule('* 30 7 * * *', () => {
+	let task = cronJob.schedule('0 30 7 * * *', () => {
 		let message = client.channels.cache.get(channelId);
-		message.send("https://media.discordapp.net/attachments/897136153495478272/1087294657853145118/Capture.png");
+		message.send('pagi');
+
+    console.log("pagi pagi... dasar pengangguran");
 	});
 
 	task.start();
-});
 
 client.login(token);
