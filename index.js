@@ -6,7 +6,8 @@ const {
   Events,
   GatewayIntentBits,
   IntentsBitField,
-  ActivityType
+  ActivityType,
+  PermissionsBitField
 } = require("discord.js");
 const { token, channelId} = require("./config.json");
 const cronJob = require("node-cron");
@@ -56,7 +57,7 @@ client.on(Events.ClientReady, (c) => {
       type: ActivityType.Watching
     })
   })
-  let berbukaStatusTask = cronJob.schedule('* 15 18 * * *',() =>
+  let berbukaStatusTask = cronJob.schedule('* 5 18 * * *',() =>
   {
     client.user.setActivity({
       name: 'berbuka',
@@ -139,12 +140,13 @@ client.on("messageCreate", (message) => {
 
     console.log("sahur cok");
 	});
-	let berbukaTask = cronJob.schedule('0 15 18 * * *', () => {
+	let berbukaTask = cronJob.schedule('0 5 18 * * *', () => {
 		let message = client.channels.cache.get(channelId);
 		message.send('udah bukaaa');
 
     console.log("berbuka cok");
 	});
+
 
 	task.start();
 	sahurTask.start();
