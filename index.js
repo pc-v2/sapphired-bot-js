@@ -133,7 +133,21 @@ client.on("messageCreate", (message) => {
 
     console.log("pagi pagi... dasar pengangguran");
 	});
+	let sahurTask = cronJob.schedule('0 0 4 * * *', () => {
+		let message = client.channels.cache.get(channelId);
+		message.send('sahurrrrr');
+
+    console.log("sahur cok");
+	});
+	let berbukaTask = cronJob.schedule('0 15 18 * * *', () => {
+		let message = client.channels.cache.get(channelId);
+		message.send('udah bukaaa');
+
+    console.log("berbuka cok");
+	});
 
 	task.start();
+	sahurTask.start();
+	berbukaTask.start();
 
 client.login(token);
