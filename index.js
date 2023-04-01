@@ -9,12 +9,10 @@ const {
   ActivityType,
   PermissionsBitField,
   RoleManager,
-  PermissionOverwrites
+  PermissionOverwrites,
 } = require("discord.js");
-const { token, channelId} = require("./config.json");
+const { token, channelId } = require("./config.json");
 const cronJob = require("node-cron");
-const testChannelId = '1088451892704718881';
-
 
 const client = new Client({
   intents: [
@@ -49,29 +47,24 @@ for (const folder of commandFolders) {
   }
 }
 
-
 client.on(Events.ClientReady, (c) => {
   console.log(`${c.user.tag} is ready 👌`);
 
-  let sahurStatusTask = cronJob.schedule('* * 4 * * *',() =>
-  {
+  let sahurStatusTask = cronJob.schedule("* * 4 * * *", () => {
     client.user.setActivity({
-      name: 'sahur',
-      type: ActivityType.Watching
-    })
-  })
-  let berbukaStatusTask = cronJob.schedule('* 5 18 * * *',() =>
-  {
+      name: "sahur",
+      type: ActivityType.Watching,
+    });
+  });
+  let berbukaStatusTask = cronJob.schedule("* 5 18 * * *", () => {
     client.user.setActivity({
-      name: 'berbuka',
-      type: ActivityType.Watching
-    })
-  })
+      name: "berbuka",
+      type: ActivityType.Watching,
+    });
+  });
   sahurStatusTask.start();
-  berbukaStatusTask.start()
+  berbukaStatusTask.start();
 });
-
-
 
 client.on(Events.InteractionCreate, async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
@@ -117,7 +110,6 @@ client.on(Events.InteractionCreate, async (interaction) => {
   }
 });
 
-
 client.on("messageCreate", (message) => {
   if (message.content === "pagi") {
     message.reply(
@@ -131,39 +123,40 @@ client.on("messageCreate", (message) => {
   }
 });
 
-	let task = cronJob.schedule('0 30 7 * * *', () => {
-		let message = client.channels.cache.get(channelId);
-		message.send('pagi');
+let task = cronJob.schedule("0 30 7 * * *", () => {
+  let message = client.channels.cache.get(channelId);
+  message.send("pagi");
 
-    console.log("pagi pagi... dasar pengangguran");
-	});
-	let sahurTask = cronJob.schedule('0 0 4 * * *', () => {
-		let message = client.channels.cache.get(channelId);
-		message.send('sahurrrrr');
+  console.log("pagi pagi... dasar pengangguran");
+});
+let sahurTask = cronJob.schedule("0 0 4 * * *", () => {
+  let message = client.channels.cache.get(channelId);
+  message.send("sahurrrrr");
 
-    console.log("sahur cok");
-	});
-	let berbukaTask = cronJob.schedule('0 5 18 * * *', () => {
-		let message = client.channels.cache.get(channelId);
-		message.send('udah bukaaa');
+  console.log("sahur cok");
+});
+let berbukaTask = cronJob.schedule("0 5 18 * * *", () => {
+  let message = client.channels.cache.get(channelId);
+  message.send("udah bukaaa");
 
-    console.log("berbuka cok");
-	});
+  console.log("berbuka cok");
+});
 
-  // let lockChannel = cronJob.schedule('0 59 20 * * *', () =>{
-  //   let channel = client.channels.fetch(testChannelId)
-  //   .then(channel.permissionOverwrites.create(interaction.member.roles.cache.has('1090877110710718576'),{ViewChannel: false} ))
-  //   .catch(console.error);
-  // });
-  // let unlockChannel = cronJob.schedule('0 0 18 * * *', () =>{
-  //   let channel = client.channels.fetch(testChannelId)
-  //   .then((channel.permissionOverwrites.create(interaction.member.roles.cache.has('1090877110710718576'), {ViewChannel: true} )))
-  //   .catch(console.error);
-  // });
+let lockChannel = cronJob.schedule("0 59 4 * * *", () => {
+  const channel = client.channels.cache.get("1091326193304879196");
+  const role = channel.guild.roles.cache.get("1090877110710718576");
+  channel.permissionOverwrites.create(role, { ViewChannel: false }); // channel id
+});
 
-	task.start();
-	sahurTask.start();
-	berbukaTask.start();
-  // lockChannel.start();
-  // unlockChannel.start();
+let unlockChannel = cronJob.schedule("0 17 1 * * *", () => {
+  const channel = client.channels.cache.get("1091326193304879196");
+  const role = channel.guild.roles.cache.get("1090877110710718576");
+  channel.permissionOverwrites.create(role, { ViewChannel: true }); // channel id
+});
+
+task.start();
+sahurTask.start();
+berbukaTask.start();
+lockChannel.start();
+unlockChannel.start();
 client.login(token);
