@@ -7,6 +7,7 @@ const {
   RoleManager,
 } = require("discord.js");
 const testChannelId = "1088451892704718881";
+const rakyatRole = "1090877110710718576";
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("unlock")
@@ -27,7 +28,7 @@ module.exports = {
 
     let channel = interaction.options.getChannel("channel");
 
-    channel.permissionOverwrites.create(interaction.guild.id, {
+    channel.permissionOverwrites.create((interaction.guild.id, rakyatRole), {
       ViewChannel: true,
     });
 
