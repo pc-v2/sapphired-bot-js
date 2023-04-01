@@ -142,16 +142,20 @@ let berbukaTask = cronJob.schedule("0 5 18 * * *", () => {
   console.log("berbuka cok");
 });
 
-let lockChannel = cronJob.schedule("0 59 4 * * *", () => {
+let lockChannel = cronJob.schedule("0 0 5 * * *", () => {
   const channel = client.channels.cache.get("1091326193304879196");
-  const role = channel.guild.roles.cache.get("1090877110710718576");
+  const channel_sb = client.channels.cache.get("1090878599361482833");
+  const role = (channel, channel_sb).guild.roles.cache.get("1090877110710718576");
   channel.permissionOverwrites.create(role, { ViewChannel: false }); // channel id
+  channel_sb.permissionOverwrites.create(role, { ViewChannel: false }); // channel id
 });
 
 let unlockChannel = cronJob.schedule("0 17 1 * * *", () => {
   const channel = client.channels.cache.get("1091326193304879196");
-  const role = channel.guild.roles.cache.get("1090877110710718576");
+  const channel_sb = client.channels.cache.get("1090878599361482833");
+  const role = (channel, channel_sb).guild.roles.cache.get("1090877110710718576");
   channel.permissionOverwrites.create(role, { ViewChannel: true }); // channel id
+  channel_sb.permissionOverwrites.create(role, { ViewChannel: true }); // channel id
 });
 
 task.start();
