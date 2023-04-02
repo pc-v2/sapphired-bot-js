@@ -7,11 +7,14 @@ const {
   GatewayIntentBits,
   IntentsBitField,
   ActivityType,
-  PermissionsBitField,
-  RoleManager,
-  PermissionOverwrites,
 } = require("discord.js");
-const { token, channelId } = require("./config.json");
+const {
+  token,
+  sdChannelId,
+  testChannelId,
+  generalChannelId,
+  roleRakyatJelata,
+} = require("./config.json");
 const cronJob = require("node-cron");
 
 const client = new Client({
@@ -23,7 +26,8 @@ const client = new Client({
     IntentsBitField.Flags.MessageContent,
   ],
 });
-
+const testChannel = client.channels.cache.get(testChannelId);
+const channel_sd = client.channels.cache.get(sdChannelId);
 client.cooldowns = new Collection();
 client.commands = new Collection();
 const foldersPath = path.join(__dirname, "commands");
@@ -124,38 +128,38 @@ client.on("messageCreate", (message) => {
 });
 
 let task = cronJob.schedule("0 30 7 * * *", () => {
-  let message = client.channels.cache.get(channelId);
+  let message = client.channels.cache.get(generalChannelId);
   message.send("pagi");
 
   console.log("pagi pagi... dasar pengangguran");
 });
 let sahurTask = cronJob.schedule("0 0 4 * * *", () => {
-  let message = client.channels.cache.get(channelId);
+  let message = client.channels.cache.get(generalChannelId);
   message.send("sahurrrrr");
 
   console.log("sahur cok");
 });
 let berbukaTask = cronJob.schedule("0 5 18 * * *", () => {
-  let message = client.channels.cache.get(channelId);
+  let message = client.channels.cache.get(generalChannelId);
   message.send("udah bukaaa");
 
   console.log("berbuka cok");
 });
 
 let lockChannel = cronJob.schedule("0 0 5 * * *", () => {
-  const channel = client.channels.cache.get("1091326193304879196");
-  const channel_sb = client.channels.cache.get("1090878599361482833");
-  const role = (channel, channel_sb).guild.roles.cache.get("1090877110710718576");
-  channel.permissionOverwrites.create(role, { ViewChannel: false }); // channel id
-  channel_sb.permissionOverwrites.create(role, { ViewChannel: false }); // channel id
+  const role = (channel_sd, testChannel).guild.roles.cache.get(
+    roleRakyatJelata
+  );
+  channel_sd.permissionOverwrites.create((role, channel.guild.roles.everyone), { ViewChannel: false }); // channel id
+  testChannel.permissionOverwrites.create((role, channel.guild.roles.everyone), { ViewChannel: false }); // channel id // channel id
 });
 
 let unlockChannel = cronJob.schedule("0 17 1 * * *", () => {
-  const channel = client.channels.cache.get("1091326193304879196");
-  const channel_sb = client.channels.cache.get("1090878599361482833");
-  const role = (channel, channel_sb).guild.roles.cache.get("1090877110710718576");
-  channel.permissionOverwrites.create(role, { ViewChannel: true }); // channel id
-  channel_sb.permissionOverwrites.create(role, { ViewChannel: true }); // channel id
+  const role = (channel_sd, testChannel).guild.roles.cache.get(
+    roleRakyatJelata
+  );
+  channel_sd.permissionOverwrites.create((role, channel.guild.roles.everyone), { ViewChannel: true }); // channel id
+  testChannel.permissionOverwrites.create((role, channel.guild.roles.everyone), { ViewChannel: true }); // channel id
 });
 
 task.start();

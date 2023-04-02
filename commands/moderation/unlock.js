@@ -1,13 +1,9 @@
 const {
   SlashCommandBuilder,
   EmbedBuilder,
-  PermissionsBitField,
   ChannelType,
-  PermissionOverwrites,
-  RoleManager,
 } = require("discord.js");
-const testChannelId = "1088451892704718881";
-const rakyatRole = "1090877110710718576";
+const { roleRakyatJelata, roleAdmin } = require("../../config.json");
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("unlock")
@@ -20,15 +16,16 @@ module.exports = {
         .setRequired(true)
     ),
   async execute(interaction) {
-    if (!interaction.member.roles.cache.has("1089560155215106068")) //jika bukan role admin
+    if (!interaction.member.roles.cache.has(roleAdmin))
+      //jika bukan role admin
       return await interaction.reply({
         content: "You dont have permission to execute this command",
         ephemeral: true,
       });
 
-    let channel = interaction.options.getChannel("channel");
+      let channel = interaction.options.getChannel("channel");
 
-    channel.permissionOverwrites.create((interaction.guild.id, rakyatRole), {
+    channel.permissionOverwrites.create((roleRakyatJelata), {
       ViewChannel: true,
     });
 
