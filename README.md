@@ -4,8 +4,9 @@ dependencies
 
 discord.js
 
-
 node.cron
+
+nodemon
 
 
 
