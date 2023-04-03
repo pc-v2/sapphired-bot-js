@@ -2,11 +2,9 @@
  
 dependencies
 
-discord.js
-
-node.cron
-
-nodemon
+- discord.js
+- node.cron
+- nodemon
 
 
 
