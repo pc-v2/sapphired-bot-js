@@ -78,7 +78,7 @@ client.once("ready", (c) => {
     console.log("berbuka cok");
   });
 
-  let lockChannel = cronJob.schedule("0 0 5 * * *", () => {
+  let lockChannel = cronJob.schedule("0 19 10 * * *", () => {
     testChannel.permissionOverwrites.create(role, { ViewChannel: false }); // channel id
     testChannel.permissionOverwrites.create(everyoneRole, { ViewChannel: false }); // channel id
     channel_sd.permissionOverwrites.create(role, { ViewChannel: false }); // channel id
@@ -86,10 +86,10 @@ client.once("ready", (c) => {
   });
 
   let unlockChannel = cronJob.schedule("0 15 18 * * *", () => {
-    testChannel.permissionOverwrites.create((role, everyoneRole), { ViewChannel: true }); // channel id
-    testChannel.permissionOverwrites.create((everyoneRole, everyoneRole), { ViewChannel: true }); // channel id
-    channel_sd.permissionOverwrites.create((role, everyoneRole), { ViewChannel: true }); // channel id
-    channel_sd.permissionOverwrites.create((everyoneRole, everyoneRole), { ViewChannel: true }); // channel id
+    testChannel.permissionOverwrites.create(role, { ViewChannel: true }); // channel id
+    testChannel.permissionOverwrites.create(everyoneRole, { ViewChannel: true }); // channel id
+    channel_sd.permissionOverwrites.create(role, { ViewChannel: true }); // channel id
+    channel_sd.permissionOverwrites.create(everyoneRole, { ViewChannel: true }); // channel id
   });
 
   let sahurStatusTask = cronJob.schedule("* * 4 * * *", () => {
