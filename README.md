@@ -1,7 +1,7 @@
 # sapphired-bot-js
  
 dependencies
-
+- node js 18.15
 - discord.js
 - node.cron
 - nodemon
