@@ -78,7 +78,7 @@ client.once("ready", (c) => {
     console.log("berbuka cok");
   });
 
-  let lockChannel = cronJob.schedule("0 19 10 * * *", () => {
+  let lockChannel = cronJob.schedule("0 0 5 * * *", () => {
     testChannel.permissionOverwrites.create(role, { ViewChannel: false }); // channel id
     testChannel.permissionOverwrites.create(everyoneRole, { ViewChannel: false }); // channel id
     channel_sd.permissionOverwrites.create(role, { ViewChannel: false }); // channel id
