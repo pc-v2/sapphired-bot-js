@@ -1,9 +1,15 @@
 const {
+  Client,
   SlashCommandBuilder,
   EmbedBuilder,
+  PermissionsBitField,
+  IntentsBitField,
+  GatewayIntentBits,
   ChannelType,
+  Permissions
 } = require("discord.js");
-const { roleRakyatJelata, roleAdmin } = require("../../config.json");
+const { roleRakyatJelata, guildId } = require("../../config.json");
+
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("unlock")
@@ -16,16 +22,36 @@ module.exports = {
         .setRequired(true)
     ),
   async execute(interaction) {
-    if (!interaction.member.roles.cache.has(roleAdmin))
-      //jika bukan role admin
+    const client = new Client({
+      intents: [
+        GatewayIntentBits.Guilds,
+        IntentsBitField.Flags.Guilds,
+        IntentsBitField.Flags.GuildMembers,
+        IntentsBitField.Flags.GuildMessages,
+        IntentsBitField.Flags.MessageContent,
+      ],
+    });
+
+    if (
+      !interaction.member.permissions.has(
+        PermissionsBitField.Flags.ManageChannels
+      )
+    )
+      //jika bukan moderator/admin (no manage channels)
       return await interaction.reply({
         content: "You dont have permission to execute this command",
         ephemeral: true,
       });
 
-      let channel = interaction.options.getChannel("channel");
+    const guild = interaction.guild;
+    const everyoneRole = guild.roles.everyone;
+    let channel = interaction.options.getChannel("channel");
 
-    channel.permissionOverwrites.create((roleRakyatJelata), {
+    channel.permissionOverwrites.create(everyoneRole, {
+      ViewChannel: true,
+    });
+
+    channel.permissionOverwrites.create(roleRakyatJelata, {
       ViewChannel: true,
     });
 
